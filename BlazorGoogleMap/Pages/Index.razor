@@ -8,7 +8,7 @@
         </h3>
 
         <RadzenGoogleMap style="height: 600px;" Zoom="@zoom" Center="@(new GoogleMapPosition() {Lat = 42.6977, Lng = 23.3219})"
-                         MapClick="@OnMapClick" MarkerClick="@OnMarkerClick" >
+                         MapClick="@OnMapClick" MarkerClick="@OnMarkerClick" Data="@positions">
             @*<Markers >
         
                 @if (searchPosition)
@@ -52,84 +52,83 @@
         clickedPosition = $"Map {args.Title} clicked LAT: {args.Position.Lat}, LNG: {args.Position.Lng}";
     }
 
-    List<RadzenGoogleMapMarker> positions = new List<RadzenGoogleMapMarker>() 
-    {
-        new RadzenGoogleMapMarker()
-        {
-            Position = new GoogleMapPosition() {Lat = 42.69511995155306, Lng = 23.323037256622303}
-        },
-        new RadzenGoogleMapMarker()
-        {
-            Position = new GoogleMapPosition() {Lat = 42.698778668389004, Lng = 23.31539832534789}
-        },
-        new RadzenGoogleMapMarker()
-        {
-            Position = new GoogleMapPosition() {Lat = 42.6979586299108, Lng = 23.311321367645252}
-        }
-    };
-    //positions = new List<RadzenGoogleMapMarker>()
-    //{
-    //    new RadzenGoogleMapMarker()
-    //    {
-    //        Position = new GoogleMapPosition() {Lat = 42.69511995155306, Lng = 23.323037256622303}
-    //    },
-    //    new RadzenGoogleMapMarker()
-    //    {
-    //        Position = new GoogleMapPosition() {Lat = 42.698778668389004, Lng = 23.31539832534789}
-    //    },
-    //    new RadzenGoogleMapMarker()
-    //    {
-    //        Position = new GoogleMapPosition() {Lat = 42.6979586299108, Lng = 23.311321367645252}
-    //    }
-    //};
+    List<RadzenGoogleMapMarker> positions;
+
     List<GoogleMapPosition> googleMapPositions;
-    void DisplayPosition()
+    async Task DisplayPosition()
     {
         searchPosition = true;
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (i == 1)
+            {
+                positions = new List<RadzenGoogleMapMarker>()
+                {
+                    new RadzenGoogleMapMarker()
+                    {
+                        Position = new GoogleMapPosition() {Lat = 42.69511995155306, Lng = 23.323037256622303}
+                    },
+                    new RadzenGoogleMapMarker()
+                    {
+                        Position = new GoogleMapPosition() {Lat = 42.698778668389004, Lng = 23.31539832534789}
+                    },
+                    new RadzenGoogleMapMarker()
+                    {
+                        Position = new GoogleMapPosition() {Lat = 42.6979586299108, Lng = 23.311321367645252}
+                    }
+                };
+                await Task.Delay(3000);
+            }
+
+            if (i == 2)
+            {
+                positions = new List<RadzenGoogleMapMarker>()
+                {
+                    new RadzenGoogleMapMarker()
+                    {
+                        Position = new GoogleMapPosition() {Lat = 42.69288045817453, Lng = 23.329903711700428}
+                    },
+                    new RadzenGoogleMapMarker()
+                    {
+                        Position = new GoogleMapPosition() {Lat = 42.69168182290715, Lng = 23.3290883201599}
+                    },
+                    new RadzenGoogleMapMarker()
+                    {
+                        Position = new GoogleMapPosition() {Lat = 42.69042007658193, Lng = 23.319689859771717}
+                    }
+                };
+                await Task.Delay(3000);
+            }
+
+            if (i == 3)
+            {
+                positions = new List<RadzenGoogleMapMarker>()
+                {
+                    new RadzenGoogleMapMarker()
+                    {
+                        Position = new GoogleMapPosition() {Lat = 42.69209188494396, Lng = 23.31436835708617}
+                    },
+                    new RadzenGoogleMapMarker()
+                    {
+                        Position = new GoogleMapPosition() {Lat = 42.692975086289366, Lng = 23.330161203765858}
+                    },
+                    new RadzenGoogleMapMarker()
+                    {
+                        Position = new GoogleMapPosition() {Lat = 42.6998825492388, Lng = 23.319518198394764}
+                    }
+                };
+                await Task.Delay(3000);
+            }
+        }
+        
         
 
-
-        googleMapPositions = new List<GoogleMapPosition>()
-        {
-            new GoogleMapPosition() { Lat = 42.69511995155306, Lng = 23.323037256622303 },
-            new GoogleMapPosition() {Lat = 42.698778668389004, Lng = 23.31539832534789}
-        };
-        //for (int i = 0; i < 3; i++)
+        //googleMapPositions = new List<GoogleMapPosition>()
         //{
-        //    if (i == 0)
-        //    {
-        //        Latitude = 42.69511995155306;
-        //        Longitude = 23.323037256622303;
-        //        searchPosition = true;
-
-        //        await Task.Delay(2000);
-
-        //    }
-
-        //    if (i == 1)
-        //    {
-        //        Latitude = 42.698778668389004;
-        //        Longitude = 23.31539832534789;
-
-        //        await Task.Delay(2000);
-
-        //    }
-
-        //    if (i == 2)
-        //    {
-        //        Latitude = 42.6979586299108;
-        //        Longitude = 23.311321367645252;
-
-        //        await Task.Delay(2000);
-
-        //    }
-        //}
-    }
-
-
-    public class Location
-    {
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        //    new GoogleMapPosition() { Lat = 42.69511995155306, Lng = 23.323037256622303 },
+        //    new GoogleMapPosition() {Lat = 42.698778668389004, Lng = 23.31539832534789}
+        //};
+        
     }
 }

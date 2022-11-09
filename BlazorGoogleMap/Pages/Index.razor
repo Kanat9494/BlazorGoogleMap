@@ -8,19 +8,19 @@
         </h3>
 
         @*<RadzenGoogleMap style="height: 600px;" Zoom="@zoom" Center="@(new GoogleMapPosition() {Lat = 42.6977, Lng = 23.3219})"
-                         MapClick="@OnMapClick" MarkerClick="@OnMarkerClick" Data="@positions">*@
+        MapClick="@OnMapClick" MarkerClick="@OnMarkerClick" Data="@positions">*@
         <RadzenGoogleMap style="height: 600px;" Zoom="@zoom" Center="@(new GoogleMapPosition() {Lat = 42.6977, Lng = 23.3219})"
                          MapClick="@OnMapClick" MarkerClick="@OnMarkerClick">
-            <Markers >
-        
+            <Markers>
+
                 @if (searchPosition)
                 {
                     foreach (KeyValuePair<int, GoogleMapPosition> entry in driversPositions)
                     {
                         <RadzenGoogleMapMarker Title="Paris" Label="Paris" Position="@entry.Value" />
                     }
-                    
-                    
+
+
                 }
 
 
@@ -88,12 +88,40 @@
     Dictionary<int, GoogleMapPosition> driversPositions = new Dictionary<int, GoogleMapPosition>()
     {
         {1, new GoogleMapPosition() { Lat = 42.69511995155306, Lng = 23.323037256622303 } },
-        {2, new GoogleMapPosition() { Lat = 42.698778668389004, Lng = 23.31539832534789 } },
+        {8, new GoogleMapPosition() { Lat = 42.698778668389004, Lng = 23.31539832534789 } },
+        {5, new GoogleMapPosition() {Lat = 42.6979586299108, Lng = 23.311321367645252}},
     };
     async Task DisplayPosition()
     {
         searchPosition = true;
 
+        for (int i = 1; i < 5; i++)
+        {
+            //Первый вариант
+            // 
+            // var isExist = driversPositions.Keys.Where(key => key == i).Any();
+
+            // Расскомментировать, если ключом является строка
+            // 
+            // var isExist = driversPositions.Keys.Where(key => key.Contains(i)).Any();
+
+            int? existingCoordinates = driversPositions.Keys.FirstOrDefault(key => key == i);
+            await Task.Delay(2000);
+            if (existingCoordinates == null || existingCoordinates == 0)
+            {
+                if (i == 2)
+                    driversPositions.Add(i, new GoogleMapPosition() { Lat = 42.691839539395545, Lng = 23.330161203765858 });
+                else if (i == 3)
+                    driversPositions[i] = new GoogleMapPosition() { Lat = 42.69168182290715, Lng = 23.3290883201599 };
+                else if (i == 4)
+                    driversPositions.Add(i, new GoogleMapPosition() { Lat = 42.69042007658193, Lng = 23.319689859771717 });
+
+            }
+            else
+            {
+                driversPositions[i] = new GoogleMapPosition() { Lat = 42.69288045817453, Lng = 23.329903711700428 };
+            }
+        }
         //for (int i = 0; i < 4; i++)
         //{
         //    if (i == 1)
@@ -187,7 +215,6 @@
         //    new GoogleMapPosition() { Lat = 42.69511995155306, Lng = 23.323037256622303 },
         //    new GoogleMapPosition() {Lat = 42.698778668389004, Lng = 23.31539832534789}
         //};
-        await Task.Delay(3000);
 
     }
 }

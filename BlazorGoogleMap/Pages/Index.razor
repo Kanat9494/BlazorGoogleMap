@@ -3,51 +3,26 @@
 <div class="row">
     <div class="col-xl-6">
         <h3>
-            <RadzenCheckBox @bind-Value="@showMadridMarker"/> 
+            <RadzenCheckBox @bind-Value="@showMadridMarker" />
             <button @onclick="@DisplayPosition">Посмотреть позиции</button>
         </h3>
 
         <RadzenGoogleMap style="height: 600px;" Zoom="@zoom" Center="@(new GoogleMapPosition() {Lat = 42.6977, Lng = 23.3219})"
-            MapClick="@OnMapClick" MarkerClick="@OnMarkerClick">
-            <Markers>
-                <RadzenGoogleMapMarker Title="London" Label="London" Position="@(new GoogleMapPosition() {Lat = 51.5074, Lng = 0.1278})" />
-                <RadzenGoogleMapMarker Title="Paris" Label="Paris" Position="@(new GoogleMapPosition() {Lat = 48.8566, Lng = 2.3522})" />
-                @*@if (showMadridMarker)
-                {
-                    for (int  i = 0; i < 3; i++)
-                    {
-                        if (i == 0)
-                        {
-                            Task.Delay(5000);
-
-                            @*<RadzenGoogleMapMarker Title="Madrid" Label="Madrid" Position="@(new GoogleMapPosition() {Lat = 42.70196409973117, Lng = 23.3276291984558})" />*@
-                            @*<RadzenGoogleMapMarker Title="Madrid" Label="Madrid" Position="@(new GoogleMapPosition() {Lat = 42.69511995155306, Lng = 23.323037256622303})" />
-
-                        }
-                        else if (i == 1)
-                        {
-                            Task.Delay(5000);
-                            <RadzenGoogleMapMarker Title="Madrid" Label="Madrid" Position="@(new GoogleMapPosition() {Lat = 42.698778668389004, Lng = 23.31539832534789})" />
-
-                        }
-                        else if (i == 2)
-                        {
-                            Task.Delay(5000);
-                            <RadzenGoogleMapMarker Title="Madrid" Label="Madrid" Position="@(new GoogleMapPosition() {Lat = 42.6979586299108, Lng = 23.311321367645252})" />
-
-                        }
-                    }
-
-
-                }*@
+                         MapClick="@OnMapClick" MarkerClick="@OnMarkerClick" >
+            @*<Markers >
+        
                 @if (searchPosition)
                 {
-                    <RadzenGoogleMapMarker Title="Paris" Label="Paris" Position="@(new GoogleMapPosition() {Lat = @Latitude, Lng = @Longitude})" />
+                    foreach (var item in googleMapPositions)
+                    {
+                        <RadzenGoogleMapMarker Title="Paris" Label="Paris" Position="@item" />
 
+                    }
+                    
                 }
 
 
-            </Markers>
+            </Markers>*@
         </RadzenGoogleMap>
     </div>
 
@@ -56,13 +31,16 @@
     </div>
 </div>
 
-@code 
+@code
 {
     int zoom = 15;
     bool showMadridMarker;
     bool searchPosition = false;
     string clickedPosition = "";
-    double Latitude = 0; double Longitude = 0;
+    //double Latitude = 0; double Longitude = 0;
+
+
+
 
     void OnMapClick(GoogleMapClickEventArgs args)
     {
@@ -74,37 +52,84 @@
         clickedPosition = $"Map {args.Title} clicked LAT: {args.Position.Lat}, LNG: {args.Position.Lng}";
     }
 
-    async Task DisplayPosition()
+    List<RadzenGoogleMapMarker> positions = new List<RadzenGoogleMapMarker>() 
     {
-        for (int i = 0; i < 3; i++)
+        new RadzenGoogleMapMarker()
         {
-            if (i == 0)
-            {
-                Latitude = 42.69511995155306;
-                Longitude = 23.323037256622303;
-                searchPosition = true;
-
-                await Task.Delay(2000);
-
-            }
-
-            if (i == 1)
-            {
-                Latitude = 42.698778668389004;
-                Longitude = 23.31539832534789;
-
-                await Task.Delay(2000);
-
-            }
-
-            if (i == 2)
-            {
-                Latitude = 42.6979586299108;
-                Longitude = 23.311321367645252;
-
-                await Task.Delay(2000);
-
-            }
+            Position = new GoogleMapPosition() {Lat = 42.69511995155306, Lng = 23.323037256622303}
+        },
+        new RadzenGoogleMapMarker()
+        {
+            Position = new GoogleMapPosition() {Lat = 42.698778668389004, Lng = 23.31539832534789}
+        },
+        new RadzenGoogleMapMarker()
+        {
+            Position = new GoogleMapPosition() {Lat = 42.6979586299108, Lng = 23.311321367645252}
         }
+    };
+    //positions = new List<RadzenGoogleMapMarker>()
+    //{
+    //    new RadzenGoogleMapMarker()
+    //    {
+    //        Position = new GoogleMapPosition() {Lat = 42.69511995155306, Lng = 23.323037256622303}
+    //    },
+    //    new RadzenGoogleMapMarker()
+    //    {
+    //        Position = new GoogleMapPosition() {Lat = 42.698778668389004, Lng = 23.31539832534789}
+    //    },
+    //    new RadzenGoogleMapMarker()
+    //    {
+    //        Position = new GoogleMapPosition() {Lat = 42.6979586299108, Lng = 23.311321367645252}
+    //    }
+    //};
+    List<GoogleMapPosition> googleMapPositions;
+    void DisplayPosition()
+    {
+        searchPosition = true;
+        
+
+
+        googleMapPositions = new List<GoogleMapPosition>()
+        {
+            new GoogleMapPosition() { Lat = 42.69511995155306, Lng = 23.323037256622303 },
+            new GoogleMapPosition() {Lat = 42.698778668389004, Lng = 23.31539832534789}
+        };
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    if (i == 0)
+        //    {
+        //        Latitude = 42.69511995155306;
+        //        Longitude = 23.323037256622303;
+        //        searchPosition = true;
+
+        //        await Task.Delay(2000);
+
+        //    }
+
+        //    if (i == 1)
+        //    {
+        //        Latitude = 42.698778668389004;
+        //        Longitude = 23.31539832534789;
+
+        //        await Task.Delay(2000);
+
+        //    }
+
+        //    if (i == 2)
+        //    {
+        //        Latitude = 42.6979586299108;
+        //        Longitude = 23.311321367645252;
+
+        //        await Task.Delay(2000);
+
+        //    }
+        //}
+    }
+
+
+    public class Location
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }
